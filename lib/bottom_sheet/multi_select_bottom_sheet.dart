@@ -153,7 +153,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
-        avatar: Icon(Icons.done),
+        avatar: item.avatar,
         backgroundColor: widget.unselectedColor,
         selectedColor: widget.colorator != null && widget.colorator!(item.value) != null
             ? widget.colorator!(item.value)
