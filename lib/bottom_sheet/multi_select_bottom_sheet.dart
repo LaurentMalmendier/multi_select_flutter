@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../util/multi_select_item.dart';
+
 import '../util/multi_select_actions.dart';
+import '../util/multi_select_item.dart';
 import '../util/multi_select_list_type.dart';
 
 /// A bottom sheet widget containing either a classic checkbox style list, or a chip style list.
-class MultiSelectBottomSheet<V> extends StatefulWidget
-    with MultiSelectActions<V> {
+class MultiSelectBottomSheet<V> extends StatefulWidget with MultiSelectActions<V> {
   /// List of items to select from.
   final List<MultiSelectItem<V>> items;
 
@@ -103,8 +103,7 @@ class MultiSelectBottomSheet<V> extends StatefulWidget
   });
 
   @override
-  _MultiSelectBottomSheetState<V> createState() =>
-      _MultiSelectBottomSheetState<V>(items);
+  _MultiSelectBottomSheetState<V> createState() => _MultiSelectBottomSheetState<V>(items);
 }
 
 class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
@@ -131,20 +130,15 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
       child: CheckboxListTile(
         checkColor: widget.checkColor,
         value: _selectedValues.contains(item.value),
-        activeColor: widget.colorator != null
-            ? widget.colorator!(item.value) ?? widget.selectedColor
-            : widget.selectedColor,
+        activeColor: widget.colorator != null ? widget.colorator!(item.value) ?? widget.selectedColor : widget.selectedColor,
         title: Text(
           item.label,
-          style: _selectedValues.contains(item.value)
-              ? widget.selectedItemsTextStyle
-              : widget.itemsTextStyle,
+          style: _selectedValues.contains(item.value) ? widget.selectedItemsTextStyle : widget.itemsTextStyle,
         ),
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked!);
+            _selectedValues = widget.onItemCheckedChange(_selectedValues, item.value, checked!);
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -159,42 +153,34 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
+        avatar: Icon(Icons.done),
         backgroundColor: widget.unselectedColor,
-        selectedColor:
-            widget.colorator != null && widget.colorator!(item.value) != null
-                ? widget.colorator!(item.value)
-                : widget.selectedColor != null
-                    ? widget.selectedColor
-                    : Theme.of(context).primaryColor.withOpacity(0.35),
+        selectedColor: widget.colorator != null && widget.colorator!(item.value) != null
+            ? widget.colorator!(item.value)
+            : widget.selectedColor != null
+                ? widget.selectedColor
+                : Theme.of(context).primaryColor.withOpacity(0.35),
         label: Text(
           item.label,
           style: _selectedValues.contains(item.value)
               ? TextStyle(
-                  color: widget.colorator != null &&
-                          widget.colorator!(item.value) != null
+                  color: widget.colorator != null && widget.colorator!(item.value) != null
                       ? widget.selectedItemsTextStyle != null
-                          ? widget.selectedItemsTextStyle!.color ??
-                              widget.colorator!(item.value)!.withOpacity(1)
+                          ? widget.selectedItemsTextStyle!.color ?? widget.colorator!(item.value)!.withOpacity(1)
                           : widget.colorator!(item.value)!.withOpacity(1)
                       : widget.selectedItemsTextStyle != null
-                          ? widget.selectedItemsTextStyle!.color ??
-                              (widget.selectedColor != null
-                                  ? widget.selectedColor!.withOpacity(1)
-                                  : Theme.of(context).primaryColor)
+                          ? widget.selectedItemsTextStyle!.color ?? (widget.selectedColor != null ? widget.selectedColor!.withOpacity(1) : Theme.of(context).primaryColor)
                           : widget.selectedColor != null
                               ? widget.selectedColor!.withOpacity(1)
                               : null,
-                  fontSize: widget.selectedItemsTextStyle != null
-                      ? widget.selectedItemsTextStyle!.fontSize
-                      : null,
+                  fontSize: widget.selectedItemsTextStyle != null ? widget.selectedItemsTextStyle!.fontSize : null,
                 )
               : widget.itemsTextStyle,
         ),
         selected: _selectedValues.contains(item.value),
         onSelected: (checked) {
           setState(() {
-            _selectedValues = widget.onItemCheckedChange(
-                _selectedValues, item.value, checked);
+            _selectedValues = widget.onItemCheckedChange(_selectedValues, item.value, checked);
           });
           if (widget.onSelectionChanged != null) {
             widget.onSelectionChanged!(_selectedValues);
@@ -207,8 +193,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: DraggableScrollableSheet(
         initialChildSize: widget.initialChildSize ?? 0.3,
         minChildSize: widget.minChildSize ?? 0.3,
@@ -233,15 +218,12 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                                   hintStyle: widget.searchHintStyle,
                                   hintText: widget.searchHint ?? "Search",
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: widget.selectedColor ??
-                                            Theme.of(context).primaryColor),
+                                    borderSide: BorderSide(color: widget.selectedColor ?? Theme.of(context).primaryColor),
                                   ),
                                 ),
                                 onChanged: (val) {
                                   setState(() {
-                                    _items = widget.updateSearchQuery(
-                                        val, widget.items);
+                                    _items = widget.updateSearchQuery(val, widget.items);
                                   });
                                 },
                               ),
@@ -254,9 +236,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                             ),
                     widget.searchable != null && widget.searchable!
                         ? IconButton(
-                            icon: _showSearch
-                                ? widget.closeSearchIcon ?? Icon(Icons.close)
-                                : widget.searchIcon ?? Icon(Icons.search),
+                            icon: _showSearch ? widget.closeSearchIcon ?? Icon(Icons.close) : widget.searchIcon ?? Icon(Icons.search),
                             onPressed: () {
                               setState(() {
                                 _showSearch = !_showSearch;
@@ -271,8 +251,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                 ),
               ),
               Expanded(
-                child: widget.listType == null ||
-                        widget.listType == MultiSelectListType.LIST
+                child: widget.listType == null || widget.listType == MultiSelectListType.LIST
                     ? ListView.builder(
                         controller: scrollController,
                         itemCount: _items.length,
@@ -304,11 +283,7 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                             Text(
                               "CANCEL",
                               style: TextStyle(
-                                color: (widget.selectedColor != null &&
-                                        widget.selectedColor !=
-                                            Colors.transparent)
-                                    ? widget.selectedColor!.withOpacity(1)
-                                    : Theme.of(context).primaryColor,
+                                color: (widget.selectedColor != null && widget.selectedColor != Colors.transparent) ? widget.selectedColor!.withOpacity(1) : Theme.of(context).primaryColor,
                               ),
                             ),
                       ),
@@ -317,18 +292,13 @@ class _MultiSelectBottomSheetState<V> extends State<MultiSelectBottomSheet<V>> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          widget.onConfirmTap(
-                              context, _selectedValues, widget.onConfirm);
+                          widget.onConfirmTap(context, _selectedValues, widget.onConfirm);
                         },
                         child: widget.confirmText ??
                             Text(
                               "OK",
                               style: TextStyle(
-                                color: (widget.selectedColor != null &&
-                                        widget.selectedColor !=
-                                            Colors.transparent)
-                                    ? widget.selectedColor!.withOpacity(1)
-                                    : Theme.of(context).primaryColor,
+                                color: (widget.selectedColor != null && widget.selectedColor != Colors.transparent) ? widget.selectedColor!.withOpacity(1) : Theme.of(context).primaryColor,
                               ),
                             ),
                       ),
